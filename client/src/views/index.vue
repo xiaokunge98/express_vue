@@ -1,181 +1,163 @@
 <template>
-  <div class="xie_contanner">
-    <h3>支付方页面</h3>
-    <el-form label-width="100px">
-      <el-form-item label="支付金额">
-        <el-input v-model="payValue"></el-input>
-      </el-form-item>
+  <el-container>
+    <el-header>
+      <div class="logoTitle">
+        <img src="../assets/image/logo.jpg" />
+        <span>前后端分离项目</span>
+      </div>
+      <div class="loginUser">
+        <h5>{{ $store.state.userInfo.email }}</h5>
+      </div>
+      <div class="loginOut">
+        <el-button @click="loginOut" size="small" type="warning"
+          >退出</el-button
+        >
+      </div>
+    </el-header>
+    <el-container>
+      <el-aside :width="collapseShow ? '64px' : asideWidth + 'px'">
+        <div id="close_line" @click="collapseShow = !collapseShow">
+          |||
+        </div>
+        <el-menu
+          background-color="grey"
+          :router="true"
+          :collapse="collapseShow"
+          :unique-opened="true"
+          active-text-color="yellow"
+        >
+          <template
+            v-for="(oneItem, oneIndex) in $router.options.routes[0].children"
+          >
+            <el-menu-item
+              v-if="!oneItem.children"
+              :index="oneItem.path"
+              :key="oneIndex"
+            >
+              <template>
+                <i class="el-icon-message"></i>
+                <span class="white_item">{{ oneItem.name }}</span>
+              </template>
+            </el-menu-item>
 
-      <el-form-item label="点击支付">
-        <el-button @click="toalipay('ALI_APP')" type="primary">{{
-          alipay
-        }}</el-button>
-        <el-button type="primary" @click="towxpay('WX_APP')">{{
-          wxpay
-        }}</el-button>
-      </el-form-item>
+            <el-submenu
+              v-else
+              class="white_item"
+              :index="oneItem.path"
+              :key="oneItem.path"
+            >
+              <template slot="title">
+                <i class="el-icon-message white_item"></i>
+                <span class="white_item">{{ oneItem.name }}</span>
+              </template>
 
-      <el-form-item label="支付方式">
-        <el-input v-model="payWay"></el-input>
-      </el-form-item>
-
-      <el-form-item label="支付金额">
-        <el-input v-model="payValue"></el-input>
-      </el-form-item>
-
-      <el-form-item label="订单号">
-        <el-input v-model="bill_no"></el-input>
-      </el-form-item>
-      <el-form-item label="支付状态">
-        <el-input v-model="status"></el-input>
-      </el-form-item>
-    </el-form>
-  </div>
+              <el-menu-item
+                v-for="(item, twoIndex) in oneItem.children"
+                :index="item.path"
+                :key="twoIndex"
+              >
+                <template>
+                  <i class="el-icon-message"></i>
+                  <span class="white_item">{{ item.name }}</span>
+                </template>
+              </el-menu-item>
+            </el-submenu>
+          </template>
+        </el-menu>
+      </el-aside>
+      <el-main><router-view></router-view></el-main>
+    </el-container>
+  </el-container>
 </template>
-<script>
-import QRCode from "qrcodejs2";
-export default {
-  data() {
+
+<script lang="js">
+export default{
+  name:'home',
+  data(){
     return {
-      payValue: 20,
-      alipay: "支付宝支付",
-      wxpay: "微信支付",
-      channel_id: "",
-      bill_no: "", //订单号
-      status: "",
-      payData: {
-        nonce_str: "140621890131",
-        package: "Sign=WXPay",
-        resultCode: 0,
-        errMsg: "OK:",
-        prepay_id: "wx19025829014811cec357f9c28166190000",
-        result_msg: "OK",
-        partner_id: "1230636401",
-        err_detail: "",
-        result_code: 0,
-        id: "2ae65ala-ff2b-4295-8151-e9ala32d157d",
-        app_id: "wx0411fa6a39d61297",
-        pay_sign: "CC4CA692510EF7FFCF7A1CB8036CF114",
-        timestamp: "1605725909"
-      }
-    };
-  },
-  computed: {
-    payWay() {
-      return this.channel_id == "ALI_APP"
-        ? "支付宝支付"
-        : this.channel_id == "WX_APP"
-        ? "微信支付"
-        : "";
+      asideWidth:150,
+      collapseShow:false
     }
   },
-  created() {},
+  created(){
+  },
+  methods:{
+    loginOut(){
+     this.$confirm('亲，您确定要退出吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$router.push('/login')
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '请继续浏览商城'
+            });
+          });
 
-  methods: {
-    // 点击支付宝支付
-    toalipay(id) {
-      this.channel_id = id;
-      this.bill_no = this.orderNumber();
-      this.fBeecloundPay(id);
-    },
-    // 点击微信支付
-    towxpay(id) {
-      this.channel_id = id;
-      this.bill_no = this.orderNumber();
-      this.fBeecloundPay(id);
-    },
-    // 生成订单号
-    orderNumber() {
-      return "" + Math.floor(Math.random() * 10000000000 + 10000000000);
-    },
-    // 构建给后端传递数据的函数
-    fBeecloundPay(id) {
-      /**
-       * 构建支付参数
-       * app_id: APPID
-       * channel: 支付方式
-       * title: 商品标题
-       * total_fee：支付金额
-       * bill_no：订单号
-       * bill_timeout：过期时间
-       */
-      var payData = {
-        app_id: "4401a13-965f-4b27-ba9f-da678b47f3f5",
-        channel: id,
-        title: "商品标题",
-        total_fee: this.payValue * 100,
-        bill_no: this.bill_no,
-        bill_timeout: 300
-      };
-      this.payReq(
-        payData,
-        () => {
-          // 支付成功的回调
-          this.status = "支付成功";
-        },
-        () => {
-          // 支付失败的回调
-          this.status = "支付失败";
-        }
-      );
-    },
-    //  支付过程
-    payReq(payData, successCb, errorCb) {
-      this.doPay(payData, successCb, errorCb);
-    },
-    // 发送支付-》支付请求
-    doPay(payData, successCb, errorCb) {
-      if (this.payData.result_code == 0) {
-        this.wechatPay();
-      }
-    },
-
-    // 微信支付
-    wechatPay() {
-      var staement = {
-        appid: this.payData.app_id,
-        noncestr: this.payData.nonce_str,
-        package: this.payData.package,
-        partnerid: this.payData.partner_id,
-        prepayi: this.payData.prepay_id,
-        timestamp: this.payData.timestamp,
-        sign: this.payData.pay_sign
-      };
-      this.getWechatCode(staement);
-    },
-    getWechatCode(staement) {
-      this.wechatPayUrl = staement;
-      if (!this.flag) {
-        //重点是这里，其余的是为了我的切换业务逻辑和接口
-        let wechatcode = new QRCode("wechatcode", {
-          width: 200,
-          height: 200,
-          text: this.wechatPayUrl, // 二维码地址
-          colorDark: "#000",
-          colorLight: "#fff"
-        });
-      }
-      this.flag = true;
-      this.loading = false;
-      this.isWechatCodeShow = true;
-      this.getOrderStatus();
     }
   }
-};
-</script>
-<style scoped>
-.xie_contanner {
-  /* width: 30%;
-  height: 40%; */
-  /* background: aqua; */
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
 }
-.xie_contanner >>> .el-input__inner {
-  background: aqua;
+</script>
+
+<style scope>
+.el-container {
+  height: 100%;
+}
+.el-container .el-header {
+  width: 100%;
+  background-color: grey;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+.el-container .el-aside {
+  height: 100%;
+  background-color: grey;
+  transition: 0.5s ease width;
+}
+.white_item {
+  color: white;
+}
+.el-menu {
+  border-right: none;
+}
+.el-container .el-main {
+  height: 100%;
+}
+.logoTitle {
+  height: 60px;
+  width: auto;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  padding-left: 5px;
+}
+.logoTitle img {
+  margin-right: 15px;
+  width: 250px;
+  height: 50px;
+}
+.loginUser {
+  height: 60px;
+  position: absolute;
+  right: 100px;
+}
+.loginOut {
+  height: 60px;
+  width: 50px;
+  line-height: 60px;
+  right: 30px;
+  position: absolute;
+}
+.el-main {
+  padding-top: 20px;
+}
+#close_line {
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 3px;
+  color: white;
 }
 </style>

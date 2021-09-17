@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     userAccount: "",
+    userInfo: {},
     list: []
   },
   mutations: {
@@ -14,8 +15,18 @@ export default new Vuex.Store({
     },
     GET_LISTINFO(state, value) {
       state.list = value;
+    },
+    GET_USERINFO(state, value) {
+      state.userInfo = value;
     }
   },
-  actions: {},
+  actions: {
+    SET_MOUTATIONACCOUNT({ commit }, value) {
+      commit("GET_USERACCOUNT", value);
+    },
+    SET_MOUTATIONUSERINFO({ commit }, value) {
+      commit("GET_USERINFO", value);
+    }
+  },
   modules: {}
 });

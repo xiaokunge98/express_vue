@@ -17,7 +17,8 @@ import {
   Submenu,
   MessageBox,
   Option,
-  Select
+  Select,
+  Checkbox
 } from "element-ui";
 Vue.use(Form);
 Vue.use(Button);
@@ -34,6 +35,7 @@ Vue.use(MenuItem);
 Vue.use(Submenu);
 Vue.use(Option);
 Vue.use(Select);
+Vue.use(Checkbox);
 Vue.prototype.$message = Message;
 Vue.prototype.$notify = Notification;
 Vue.prototype.$confirm = MessageBox;

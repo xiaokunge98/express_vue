@@ -6,7 +6,11 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  created() {
+    var userInfo = localStorage.getItem("userInfo");
+    this.$store.dispatch("SET_MOUTATIONUSERINFO", JSON.parse(userInfo));
+  }
 };
 </script>
 <style>

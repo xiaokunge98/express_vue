@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "echarts": "^5.2.0",
     "element-ui": "^2.15.5",
     "node-sass": "^4.14.1",
     "qrcodejs2": "0.0.2",

@@ -77,6 +77,7 @@ router.post("/login", (req, res) => {
           res.json({
             success: true,
             token: "Bearer " + token,
+            userInfo: { ...user._doc },
           });
         });
       } else {
