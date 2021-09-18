@@ -24,7 +24,7 @@
       </el-row>
       <el-row
         ><el-col :span="20">
-          <el-form-item label="使用时长">
+          <el-form-item label="注册时长">
             <el-input v-model="userModel.date"></el-input>
           </el-form-item>
         </el-col>

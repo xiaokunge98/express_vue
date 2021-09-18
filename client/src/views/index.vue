@@ -65,18 +65,22 @@
           </template>
         </el-menu>
       </el-aside>
-      <el-main><router-view></router-view></el-main>
+      <el-main>
+        <transition mode="out-in"> <router-view></router-view> </transition
+      ></el-main>
     </el-container>
   </el-container>
 </template>
 
 <script lang="js">
+import {startLoading,endLoading} from '../util/loading.js'
 export default{
-  name:'home',
+  name:'index',
   data(){
     return {
       asideWidth:150,
-      collapseShow:false
+      collapseShow:false,
+      loading:null
     }
   },
   created(){
@@ -88,7 +92,13 @@ export default{
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            this.$router.push('/login')
+           const loading= startLoading(this.loading)
+           var timer= setTimeout(() => {
+              endLoading(loading)
+                this.$router.push('/login')
+                clearTimeout(timer)
+            }, 400);
+
           }).catch(() => {
             this.$message({
               type: 'info',
@@ -102,6 +112,15 @@ export default{
 </script>
 
 <style scope>
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+  transform: translate(0, 200px);
+}
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.3s ease-in-out;
+}
 .el-container {
   height: 100%;
 }

@@ -1,17 +1,8 @@
 import axios from "axios";
 import { Loading, Message } from "element-ui";
-
-let loading;
-function startLoading() {
-  loading = Loading.service({
-    lock: true,
-    text: "拼命加载中",
-    background: "rgba(0,0,0,0.7)"
-  });
-}
-function endLoading() {
-  loading.close();
-}
+import { startLoading, endLoading } from "../util/loading.js";
+let loading; //开始动画变量
+let closeLoading; //结束动画变量
 const instance = axios.create({
   baseURL: "",
   timeout: 5000
@@ -19,7 +10,7 @@ const instance = axios.create({
 //请求拦截
 instance.interceptors.request.use(
   config => {
-    startLoading();
+    closeLoading = startLoading(loading);
     if (sessionStorage.getItem("eleToken"))
       config.headers.authorize = sessionStorage.getItem("eleToken");
     return config;
@@ -30,12 +21,12 @@ instance.interceptors.request.use(
 );
 instance.interceptors.response.use(
   response => {
-    endLoading();
+    endLoading(closeLoading);
     return response;
   },
   err => {
-    endLoading();
-    Message.error(err.response.data);
+    endLoading(closeLoading);
+    Message.error(err.data);
     return Promise.reject(err);
   }
 );

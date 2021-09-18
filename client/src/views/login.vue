@@ -47,9 +47,7 @@
   </div>
 </template>
 <script>
-import { registerUser } from "../api/user/user.js";
 import request from "../request/index";
-import axios from "axios";
 const registerStruct = {
   email: "",
   password: "",

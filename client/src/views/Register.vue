@@ -56,16 +56,17 @@
           <el-button @click="registerSubmit" type="primary" size="small"
             >注册</el-button
           >
-          <span>已有账号，点击<router-link to="/login">登录</router-link></span>
+          <span
+            >已有账号，点击
+            <router-link to="/login">登录</router-link>
+          </span>
         </div>
       </el-form>
     </section>
   </div>
 </template>
 <script>
-import { registerUser } from "../api/user/user.js";
 import request from "../request/index";
-import axios from "axios";
 const registerStruct = {
   name: "",
   email: "",
@@ -116,22 +117,37 @@ export default {
   },
   methods: {
     registerSubmit() {
-      request.post("/api/users/register", this.registerModel).then(res => {
-        if (res) {
-          this.$message.success("注册成功！");
-          this.$router.push("/login");
+      this.$refs.registerRef.validate(valied => {
+        if (valied) {
+          request
+            .post("/api/users/register", this.registerModel)
+            .then(res => {
+              if (res) {
+                this.$message.success("注册成功！");
+                this.$router.push("/login");
+              }
+            })
+            .catch(err => console.log(err));
+        } else {
+          this.$notify.error({
+            title: "信息填写错误",
+            message: "请按对应要求完成信息填写！"
+          });
         }
       });
-      // registerUser(this.registerModel)
-      //   .then(res => {
-      //     console.log(res);
-      //   })
-      //   .catch(err => console.log(err));
     }
   }
 };
 </script>
 <style scope>
+/* 给route-link 元素添加样式 */
+/* .router-link-active {
+  font-size: 30px;
+  font-weight: 800;
+  color: red;
+  transform: scale(2);
+  transition: 1s all;
+} */
 .register {
   /* 注意webp类型的图片会报错 */
   background-image: url("../assets/login.jpg");

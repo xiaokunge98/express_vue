@@ -10,8 +10,6 @@ export default {
   components: {
     headTop
   },
-  created() {
-    console.log("及拿来了");
-  }
+  created() {}
 };
 </script>

@@ -9,6 +9,7 @@ const router = new Router({
     {
       path: "/index",
       redirect: "/home",
+      name: "根目录",
       component: () =>
         import(/*webpackChunkName:'index'*/ "../views/index.vue"),
       children: [
@@ -30,7 +31,6 @@ const router = new Router({
         {
           path: "",
           component: layout,
-          meta: ["货物管理"],
           name: "货物管理",
           children: [
             {
@@ -45,7 +45,7 @@ const router = new Router({
             {
               path: "/cargoManager/logisticsInfo",
               name: "物流信息",
-              meta: ["货物管理", "货物信息"],
+              meta: ["货物管理", "物流信息"],
               component: () =>
                 import(
                   /*webpackChunkName:'systemManager'*/ "../views/cargoManagement/logisticsInfo.vue"
@@ -55,7 +55,17 @@ const router = new Router({
         }
       ]
     },
-
+    {
+      path: "/home",
+      name: "首页",
+      component: () => import(/*webpackChunkName:'home'*/ "../views/home.vue"),
+      meta: ["首页"]
+    },
+    {
+      path: "/",
+      name: "登录页",
+      redirect: "/login"
+    },
     {
       path: "/register",
       name: "register",
