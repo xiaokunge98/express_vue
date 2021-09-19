@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <head-top></head-top>
+    <head-top :router-path="$route.path"></head-top>
   </div>
 </template>
 <script>

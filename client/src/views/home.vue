@@ -1,7 +1,7 @@
 <template>
   <!-- 外层大盒子 -->
   <div class="container">
-    <head-top></head-top>
+    <head-top :router-path="$route.path"></head-top>
     <div id="mianContent">
       <div class="info_echarts">
         <my-echarts

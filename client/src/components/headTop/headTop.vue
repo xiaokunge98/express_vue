@@ -1,9 +1,19 @@
 <template>
-  <div class="header_container">
+  <div class="header_container" v-if="$route.path !== '/index'">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/home' }"> </el-breadcrumb-item>
-      <el-breadcrumb-item v-for="(item, index) in $route.meta" :key="index">
-        {{ item }}
+      <el-breadcrumb-item v-if="$route.path === '/home'"
+        >/首页</el-breadcrumb-item
+      >
+      <el-breadcrumb-item v-else :to="{ path: '/home' }"
+        >/首页
+      </el-breadcrumb-item>
+      <el-breadcrumb-item
+        :disabled="$route.path === currentPath"
+        v-for="(item, index) in $route.meta.info"
+        :key="index"
+      >
+        <!-- {{ item.path === currentPath ? "" : item.name }} -->
+        {{ item.name }}
       </el-breadcrumb-item>
     </el-breadcrumb>
   </div>
@@ -11,8 +21,19 @@
 <script>
 export default {
   name: "headTop",
+  props: {
+    routerPath: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
-    return {};
+    return {
+      currentPath: this.routerPath
+    };
+  },
+  created() {
+    console.log(this.currentPath);
   }
 };
 </script>

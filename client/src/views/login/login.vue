@@ -88,7 +88,11 @@
         <div class="leftbox">
           <h2 class="title"><span>WELLCOME</span>&<br />HAPPY</h2>
           <p class="desc">pick your perfect <span>bouquet</span></p>
-          <img src="../assets/image/login.jpg" alt="" class="flower smaller" />
+          <img
+            src="../../assets/image/login.jpg"
+            alt=""
+            class="flower smaller"
+          />
           <p class="account">Have an accout?</p>
           <el-button class="button" id="signin" @click="goSignin"
             >去登陆</el-button
@@ -97,7 +101,7 @@
         <div class="rightbox">
           <h2 class="title"><span>WELLCOME</span>&<br />HAPPY</h2>
           <p class="desc">pick your perfect <span>bouquet</span></p>
-          <img src="../assets/login.jpg" alt="" class="flower" />
+          <img src="../../assets/login.jpg" alt="" class="flower" />
           <p class="account">Don't have an accout?</p>
           <el-button class="button" id="signup" @click="goSignup">
             去注册
@@ -108,8 +112,8 @@
   </div>
 </template>
 <script>
-import request from "../request/index";
-import { setCookie, getCookie } from "../util/storage/storage";
+import request from "../../request/index";
+import { setCookie, getCookie } from "../../util/storage/storage";
 const loginStruct = {
   email: "",
   password: "",
@@ -123,7 +127,7 @@ const registerStruct = {
   identity: ""
 };
 export default {
-  name: "sign_in_up",
+  name: "register",
   data() {
     return {
       registerModel: Object.assign({}, registerStruct),

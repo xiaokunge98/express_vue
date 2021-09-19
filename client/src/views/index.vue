@@ -35,7 +35,7 @@
               :key="oneIndex"
             >
               <template>
-                <i class="el-icon-message"></i>
+                <i :class="oneItem.meta.icon"></i>
                 <span class="white_item">{{ oneItem.name }}</span>
               </template>
             </el-menu-item>
@@ -47,7 +47,7 @@
               :key="oneItem.path"
             >
               <template slot="title">
-                <i class="el-icon-message white_item"></i>
+                <i :class="oneItem.meta.icon"></i>
                 <span class="white_item">{{ oneItem.name }}</span>
               </template>
 
@@ -57,7 +57,7 @@
                 :key="twoIndex"
               >
                 <template>
-                  <i class="el-icon-message"></i>
+                  <i :class="item.meta.icon"></i>
                   <span class="white_item">{{ item.name }}</span>
                 </template>
               </el-menu-item>
@@ -66,7 +66,16 @@
         </el-menu>
       </el-aside>
       <el-main>
-        <transition mode="out-in"> <router-view></router-view> </transition
+        <div v-if="$route.path === '/index'">
+          <el-breadcrumb class="header_container">
+            <el-breadcrumb-item :to="{ path: '/home' }">{{
+              routerName
+            }}</el-breadcrumb-item>
+          </el-breadcrumb>
+          <wellcome></wellcome>
+        </div>
+        <transition v-else mode="out-in">
+          <router-view></router-view> </transition
       ></el-main>
     </el-container>
   </el-container>
@@ -74,14 +83,19 @@
 
 <script lang="js">
 import {startLoading,endLoading} from '../util/loading.js'
+import  wellcome from './home.vue'
 export default{
   name:'index',
   data(){
     return {
       asideWidth:150,
       collapseShow:false,
-      loading:null
+      loading:null,
+      routerName:'/根目录'
     }
+  },
+  components:{
+    wellcome
   },
   created(){
   },
@@ -112,6 +126,12 @@ export default{
 </script>
 
 <style scope>
+.header_container {
+  /* background-color: #eff2f7; */
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
 .v-enter,
 .v-leave-to {
   opacity: 0;

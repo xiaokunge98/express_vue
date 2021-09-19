@@ -1,12 +1,22 @@
 <template>
-  <el-table :data="list" border highlight-current-row>
+  <el-table
+    :data="list"
+    border
+    highlight-current-row
+    v-bind="$attrs"
+    v-on="$listeners"
+    class="table_container"
+  >
     <el-table-column
-      v-for="(item, index) in header"
-      :prop="item.prop"
-      :label="item.label"
-      :width="item.width ? item.width : '100px'"
+      v-for="(col, index) in header"
+      :prop="col.prop"
+      :label="col.label"
+      :align="col.align ? col.align : 'left'"
+      :width="col.width ? col.width : '100px'"
       :key="index"
-    ></el-table-column>
+    >
+    </el-table-column>
+    <slot></slot>
   </el-table>
 </template>
 <script>
@@ -31,12 +41,14 @@ export default {
       header: this.tableHeader
     };
   },
-  created() {
-    console.log(this.list, this.tableHeader);
-  }
+  created() {}
 };
 </script>
 <style scoped>
+.table_container {
+  margin-left: 10px;
+  margin-top: 20px;
+}
 .el-table::before {
   height: 0px;
 }

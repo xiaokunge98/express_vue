@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <head-top></head-top>
+    <head-top :router-path="$route.path"></head-top>
     <div class="content_box">
       <div class="search_box">
         <el-input
@@ -11,7 +11,24 @@
         <el-button @click="doSearch" type="primary">搜索</el-button>
       </div>
       <div class="tableInfo">
-        <data-table :data-list="list" :table-header="tableHeader" />
+        <data-table :data-list="list" :table-header="tableHeader">
+          <el-table-column label="操作" width="200px" align="center">
+            <template v-slot="scope">
+              <el-button
+                @click="doRowUpdate(scope.row)"
+                size="mini"
+                type="primary"
+                >修改</el-button
+              >
+              <el-button
+                @click="doRowDelete(scope.row.id)"
+                size="mini"
+                type="danger"
+                >删除</el-button
+              >
+            </template>
+          </el-table-column>
+        </data-table>
       </div>
     </div>
   </div>
@@ -38,15 +55,20 @@ export default {
       tableHeader: [
         {
           prop: "name",
-          label: "姓名"
+          label: "姓名",
+          width: "200px"
         },
         {
           prop: "weight",
-          label: "重量"
+          label: "重量",
+          width: "200px",
+          align: "right"
         },
         {
           prop: "cost",
-          label: "花费"
+          label: "花费",
+          width: "200px",
+          align: "right"
         }
       ]
     };
@@ -55,8 +77,17 @@ export default {
     this.list = cargoList;
   },
   methods: {
+    /**1、信息搜索操作 */
     doSearch() {
       console.log("收缩");
+    },
+    /**2、信息修改操作 */
+    doRowUpdate(row) {
+      console.log(row);
+    },
+    /**3、信息删除操作 */
+    doRowDelete(id) {
+      console.log(id);
     }
   }
 };

@@ -10,33 +10,38 @@ const router = new Router({
       path: "/index",
       redirect: "/home",
       name: "根目录",
+      meta: [],
       component: () =>
         import(/*webpackChunkName:'index'*/ "../views/index.vue"),
       children: [
         {
           path: "/home",
           name: "首页",
+          meta: { icon: "el-icon-s-home", info: [] },
           component: () =>
-            import(/*webpackChunkName:'home'*/ "../views/home.vue"),
-          meta: ["首页"]
+            import(/*webpackChunkName:'home'*/ "../views/home.vue")
         },
+
         {
-          path: "/systemManager",
-          name: "系统管理",
-          component: () =>
-            import(
-              /*webpackChunkName:'systemManager'*/ "../views/systemManager.vue"
-            )
-        },
-        {
-          path: "",
+          path: "/cargoManager",
           component: layout,
           name: "货物管理",
+          meta: {
+            icon: "el-icon-s-management",
+            info: []
+          },
+          redirect: "/cargoManager/cargoIngo",
           children: [
             {
               path: "/cargoManager/cargoIngo",
               name: "货物信息",
-              meta: ["货物管理", "货物信息"],
+              meta: {
+                icon: "el-icon-box",
+                info: [
+                  { path: "/cargoManager", name: "货物管理" },
+                  { path: "/cargoManager/cargoIngo", name: "货物管理" }
+                ]
+              },
               component: () =>
                 import(
                   /*webpackChunkName:'systemManager'*/ "../views/cargoManagement/cargoInfo.vue"
@@ -45,13 +50,31 @@ const router = new Router({
             {
               path: "/cargoManager/logisticsInfo",
               name: "物流信息",
-              meta: ["货物管理", "物流信息"],
+              meta: {
+                icon: "el-icon-truck",
+                info: [
+                  { path: "/cargoManager", name: "货物管理" },
+                  { path: "/cargoManager/logisticsInfo", name: "物流信息" }
+                ]
+              },
               component: () =>
                 import(
                   /*webpackChunkName:'systemManager'*/ "../views/cargoManagement/logisticsInfo.vue"
                 )
             }
           ]
+        },
+        {
+          path: "/systemManager",
+          name: "系统管理",
+          meta: {
+            icon: "el-icon-s-tools",
+            info: [{ path: "/systemManager", name: "系统管理" }]
+          },
+          component: () =>
+            import(
+              /*webpackChunkName:'systemManager'*/ "../views/systemManager.vue"
+            )
         }
       ]
     },
@@ -66,20 +89,27 @@ const router = new Router({
       name: "登录页",
       redirect: "/login"
     },
+    // {
+    //   path: "/login",
+    //   name: "登录t",
+    //   component: () =>
+    //     import(/*webpackChunkName:'logint'*/ "../views/login.vue")
+    // },
     {
       path: "/register",
       name: "register",
-      component: () => import("../views/register.vue")
+      component: () =>
+        import(/*webpackChunkName:'register'*/ "../views/register.vue")
     },
     {
       path: "/login",
-      name: "login",
-      component: () => import("../views/login.vue")
+      name: "登录注册",
+      component: () => import(/*webpackChunkName:'login'*/ "../views/login.vue")
     },
     {
       path: "*",
       name: "/404",
-      component: () => import("../views/404.vue")
+      component: () => import(/*webpackChunkName:'404'*/ "../views/404.vue")
     }
   ]
 });
