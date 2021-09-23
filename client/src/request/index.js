@@ -11,8 +11,10 @@ const instance = axios.create({
 instance.interceptors.request.use(
   config => {
     closeLoading = startLoading(loading);
-    if (sessionStorage.getItem("eleToken"))
-      config.headers.authorize = sessionStorage.getItem("eleToken");
+    const token = sessionStorage.getItem("eleToken");
+    if (token) {
+      config.headers.Authorization = token;
+    }
     return config;
   },
   err => {

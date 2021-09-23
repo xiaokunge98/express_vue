@@ -7,6 +7,7 @@ const app = express(); //实例化一个入口
 //引入users
 const users = require("./routes/api/users");
 const profiles = require("./routes/api/profiles");
+const goods = require("./routes/api/goods");
 
 //使用body-parser中间键
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,6 +23,7 @@ require("./config/passport")(passport);
 //使用routers
 app.use("/users", users);
 app.use("/profiles", profiles);
+app.use("/goods", goods);
 // const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`server running on port ${port}`);

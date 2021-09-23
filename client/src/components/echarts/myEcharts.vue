@@ -36,18 +36,14 @@ export default {
     pWidth: {
       handle(val) {
         this.eWidth = val;
-        console.log(val);
       },
       deep: true
     },
     pHeight(val) {
       this.eHeight = val;
-      console.log(val);
     },
     pOptions(val) {
       this.options = val;
-
-      console.log(val);
     }
   },
   methods: {

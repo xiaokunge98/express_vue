@@ -32,9 +32,7 @@ export default {
       currentPath: this.routerPath
     };
   },
-  created() {
-    console.log(this.currentPath);
-  }
+  created() {}
 };
 </script>
 <style scoped>

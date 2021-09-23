@@ -203,7 +203,6 @@ export default {
     },
     /**切换为登录表单 */
     goSignup() {
-      console.log("aaa");
       this.$refs.pinkboxRef.style.transform = "translateX(80%)";
       this.$refs.signinRef.classList.add("nodisplay");
       this.$refs.signupRef.classList.remove("nodisplay");
@@ -240,7 +239,7 @@ export default {
                 //存储token
                 sessionStorage.setItem("eleToken", token);
                 this.$message.success("登录成功！");
-                this.$router.push("/index");
+                this.$router.push("/home");
               }
             })
             .catch(err => {

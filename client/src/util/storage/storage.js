@@ -3,7 +3,7 @@
 function setCookie(uName, uPassWord, expiredays) {
   // 当前时间exdate
   var exdate = new Date();
-  //   默认过期时间为半天
+  //   默认过期时间为一天
   if (!expiredays && expiredays !== 0) {
     expiredays = 1;
   }

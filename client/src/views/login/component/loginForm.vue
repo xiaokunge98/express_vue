@@ -85,7 +85,6 @@ export default {
     // 在页面加载时从cookie获取登录信息
     let userName = getCookie("userName");
     let userPwd = getCookie("userPwd");
-    console.log(userName);
     // 如果存在赋值给表单，并且将记住密码勾选
     if (userName) {
       vm.loginModal.email = userName;

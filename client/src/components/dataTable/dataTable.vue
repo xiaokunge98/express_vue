@@ -8,6 +8,13 @@
     class="table_container"
   >
     <el-table-column
+      v-if="type"
+      type="index"
+      width="80px"
+      label="序号"
+      align="center"
+    ></el-table-column>
+    <el-table-column
       v-for="(col, index) in header"
       :prop="col.prop"
       :label="col.label"
@@ -33,6 +40,10 @@ export default {
       default: () => {
         return [];
       }
+    },
+    type: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -65,18 +76,18 @@ export default {
 .el-table thead {
 }
 .el-table >>> td {
-  border: 1px solid black;
+  border: 1px solid #b0c4de;
   border-right: none;
   /* border-bottom: none; */
 }
 .el-table >>> th.is-leaf {
-  border: 1px solid black;
+  border: 1px solid #b0c4de;
   border-bottom: none;
 }
 .el-table >>> th.is-leaf:nth-child(1) {
   border-right: none;
 }
 .el-table >>> td:last-child {
-  border-right: 1px solid black;
+  border-right: 1px solid #b0c4de;
 }
 </style>

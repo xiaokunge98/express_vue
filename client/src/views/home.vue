@@ -20,6 +20,7 @@
 import headTop from "../components/headTop/headTop.vue";
 import myEcharts from "../components/echarts/myEcharts.vue";
 import userInfo from "../components/userInfo/userInfo.vue";
+import request from "../request/index";
 export default {
   name: "home",
   data() {
@@ -40,7 +41,7 @@ export default {
           {
             name: "信息",
             type: "bar",
-            data: [5, 20, 36, 40, 10]
+            data: [8, 20, 36, 40, 10]
           },
           {
             type: "pie",
@@ -55,23 +56,32 @@ export default {
           {
             type: "line",
             name: "分布",
-            data: [
-              // { name: "1号", value: 10 },
-              5,
-              20,
-              36,
-              40,
-              10
-            ]
+            data: [8, 20, 36, 40, 10]
           }
         ]
-      }
+      },
+      userList: []
     };
   },
   components: {
     headTop,
     myEcharts,
     userInfo
+  },
+  created() {
+    // this.getUserList();
+    // console.log(this.options);
+  },
+  methods: {
+    async getUserList() {
+      const { data } = await request.get("/api/users/allUsers");
+      this.options.series[0].data.push(data.length);
+      this.options.series[0].data.push(20);
+      this.options.series[0].data.push(36);
+      this.options.series[0].data.push(40);
+      this.options.series[0].data.push(10);
+      this.options.series[2].data = this.options.series[0].data;
+    }
   }
 };
 </script>

@@ -65,6 +65,19 @@ const router = new Router({
           ]
         },
         {
+          // path: "/userInfo/:id/:name",
+          path: "/userInfo",
+          name: "用户设置",
+          meta: {
+            icon: "el-icon-user-solid",
+            info: [{ path: "/userInfo", name: "用户信息" }]
+          },
+          component: () =>
+            import(
+              /*webpackChunkName:'userInfo'*/ "../views/userInfo/userInfo.vue"
+            )
+        },
+        {
           path: "/systemManager",
           name: "系统管理",
           meta: {

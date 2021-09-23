@@ -7,13 +7,6 @@ const bcrypt = require("bcrypt"); //使用bcrypt进行密码加密
 const config = require("../../config/config");
 var jwt = require("jsonwebtoken"); //用来生成token
 const passport = require("passport");
-//登录
-//$route    GET api/users/test
-//$desc     返回请求的json数据
-//$access   public
-router.get("/test", (req, res) => {
-  res.json({ msg: "login works" });
-});
 
 //注册
 //$route    POST api/users/register
@@ -45,7 +38,6 @@ router.post("/register", (req, res) => {
       });
     }
   });
-  // console.log(req.body);
   //post方法需要npm i body-parser，要不然用不了
 });
 //登录
@@ -72,14 +64,19 @@ router.post("/login", (req, res) => {
           avatar: user.avatar,
           identity: user.identity,
         };
-        jwt.sign(rule, config.sercretOrKey, { expiresIn: 10 }, (err, token) => {
-          if (err) throw err;
-          res.json({
-            success: true,
-            token: "Bearer " + token,
-            userInfo: { ...user._doc },
-          });
-        });
+        jwt.sign(
+          rule,
+          config.sercretOrKey,
+          { expiresIn: "5h" },
+          (err, token) => {
+            if (err) throw err;
+            res.json({
+              success: true,
+              token: "Bearer " + token,
+              userInfo: { ...user._doc },
+            });
+          }
+        );
       } else {
         res.status(404).json("密码错误！");
       }
@@ -87,20 +84,22 @@ router.post("/login", (req, res) => {
   });
 });
 
-//token验证
+//获取所有user
 //$route    get api/users/current
 //$desc     return current user
 //$access   private
 router.get(
-  "/current",
+  "/allUsers",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.json({
-      id: req.user.id,
-      name: req.user.name,
-      emali: req.user.email,
-      identity: req.user.identity,
-    });
+    User.find()
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json("没有任何数据！");
+        }
+        res.json(user);
+      })
+      .catch((err) => res.status(404).json(err));
   }
 );
 module.exports = router;

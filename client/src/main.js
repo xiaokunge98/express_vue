@@ -10,6 +10,10 @@ import "element-ui/lib/theme-chalk/index.css";
 import store from "./store/store";
 import Axios from "axios";
 import * as echarts from "echarts";
+import "ant-design-vue/dist/antd.css";
+import Antd from "ant-design-vue";
+
+Vue.use(Antd);
 Vue.prototype.$echarts = echarts;
 Vue.use(ElementUI);
 Vue.config.productionTip = false;

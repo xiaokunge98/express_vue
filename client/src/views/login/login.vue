@@ -207,7 +207,6 @@ export default {
     },
     /**切换为登录表单 */
     goSignup() {
-      console.log("aaa");
       this.$refs.pinkboxRef.style.transform = "translateX(80%)";
       this.$refs.signinRef.classList.add("nodisplay");
       this.$refs.signupRef.classList.remove("nodisplay");
