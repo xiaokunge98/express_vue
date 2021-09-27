@@ -17,33 +17,42 @@
                   v-model="registerModel.name"
                   type="text"
                   placeholder="用户名"
-                />
+                >
+                  <i class="el-icon-user" slot="prefix"></i
+                ></el-input>
               </el-form-item>
               <el-form-item prop="email">
                 <el-input
                   v-model="registerModel.email"
                   type="eamil"
                   placeholder="邮箱"
-                />
+                >
+                  <i class="el-icon-message" slot="prefix"></i
+                ></el-input>
               </el-form-item>
               <el-form-item prop="password">
                 <el-input
                   v-model="registerModel.password"
                   type="password"
                   placeholder="密码"
-                />
+                >
+                  <i class="el-icon-view" slot="prefix"></i
+                ></el-input>
               </el-form-item>
               <el-form-item prop="password2">
                 <el-input
                   placeholder="确认密码"
                   v-model="registerModel.password2"
                   type="passrord"
-                />
+                >
+                  <i class="el-icon-view" slot="prefix"></i
+                ></el-input>
               </el-form-item>
               <el-form-item prop="identity">
-                <el-select v-model="registerModel.identity">
+                <el-select v-model="registerModel.identity" style="width:197px">
                   <el-option label="管理员" value="manager"></el-option>
                   <el-option label="员工" value="employee"></el-option>
+                  <i class="el-icon-s-custom" slot="prefix"></i>
                 </el-select>
               </el-form-item>
               <el-button @click="goRegister" class="button submit"
@@ -66,14 +75,24 @@
                   v-model="loginModal.email"
                   type="email"
                   placeholder="邮箱"
-                />
+                >
+                  <i class="el-icon-message" slot="suffix"></i
+                ></el-input>
               </el-form-item>
               <el-form-item prop="password">
                 <el-input
                   v-model="loginModal.password"
                   type="password"
+                  ref="passwordForm"
                   placeholder="密码"
-              /></el-form-item>
+                >
+                  <i
+                    class="el-icon-turn-off"
+                    slot="suffix"
+                    @click="handleIconClick"
+                  >
+                  </i></el-input
+              ></el-form-item>
               <div class="checkbox">
                 <input
                   type="checkbox"
@@ -206,6 +225,10 @@ export default {
       this.$refs.pinkboxRef.style.transform = "translateX(80%)";
       this.$refs.signinRef.classList.add("nodisplay");
       this.$refs.signupRef.classList.remove("nodisplay");
+    },
+    /** */
+    handleIconClick(val) {
+      this.$refs.passwordForm.type = "text";
     },
     /**登录 */
     goLogin() {
@@ -429,9 +452,6 @@ span {
 .more-padding {
   padding-top: 35px;
 }
-.more-padding .el-input {
-  padding: 0px 12px;
-}
 .more-padding .submit {
   margin-top: 45px;
 }
@@ -486,6 +506,9 @@ label {
   position: relative;
   left: -52px;
   top: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .el-input[type="checkbox"] {
   width: 20px;

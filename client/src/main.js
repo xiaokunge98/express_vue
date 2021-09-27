@@ -12,7 +12,7 @@ import Axios from "axios";
 import * as echarts from "echarts";
 import "ant-design-vue/dist/antd.css";
 import Antd from "ant-design-vue";
-
+import "@/icons"; // icon
 Vue.use(Antd);
 Vue.prototype.$echarts = echarts;
 Vue.use(ElementUI);
