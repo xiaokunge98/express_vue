@@ -127,10 +127,6 @@ export default {
   },
   methods: {
     doEcharts() {
-      var data = [70, 34, 60, 78, 69];
-      var titlename = ["HTML5", "CSS3", "javascript", "VUE", "NODE"];
-      var valdata = [702, 350, 610, 793, 664];
-      var myColor = ["#1089E7", "#F57474", "#56D0E3", "#F8B448", "#8B78F6"];
       let box = document.querySelector("#test_box");
       this.myEcharts = this.$echarts.init(box);
       this.myEcharts.setOption(this.options);
